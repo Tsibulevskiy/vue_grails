@@ -1,23 +1,34 @@
 import axios from "axios";
+import { XML } from "../../config/AuthXML";
 
 export default {
     state: {
-        errorMessage: null
+        errorMessage: null,
+        status: '',
     },
     getters: {
-      getErrorMessage: (state) => state.errorMessage
+      getErrorMessage: (state) => state.errorMessage,
+      isLoggedIn: state => !!state.status,
     },
     mutations: {
         errorMessage(state, payload) {
             state.errorMessage = payload
+        },
+        status(state, payload) {
+            state.status = payload
         }
     },
     actions: {
         auth({commit}, user) {
             return new Promise((resolve, reject) => {
-                axios({url: 'http://localhost:8080/auth', data: user, method: 'POST'})
+                const data = XML(user)
+                axios({url: 'http://localhost:8080/auth/auth/', data: data, method: 'POST', headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    }})
                     .then(response => {
-                        const token = response.data.access;
+                        commit('status', response.data.success)
+                        const token = response.data.token;
                         localStorage.setItem('token', token);
                         resolve(response)
                     })
@@ -27,6 +38,7 @@ export default {
                         reject(error)
                     })
             })
+
         }
     }
 }

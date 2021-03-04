@@ -7,6 +7,7 @@ buildscript {
         classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.0"
         classpath "org.grails.plugins:hibernate5:7.0.4"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.2.4"
+        classpath "com.github.node-gradle:gradle-node-plugin:2.2.4"
     }
 }
 
@@ -20,6 +21,7 @@ apply plugin:"org.grails.grails-web"
 apply plugin:"com.github.erdi.webdriver-binaries"
 apply plugin:"com.bertramlabs.asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
+apply plugin: 'com.github.node-gradle.node'
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
@@ -109,3 +111,4 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+

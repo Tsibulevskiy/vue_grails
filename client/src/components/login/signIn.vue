@@ -20,13 +20,16 @@
               </v-text-field>
             </v-col>
             <v-col cols="10" class="text-center">
-              <v-btn @click.prevent.once="Authorization" color="success" :disabled="validate"
+              <v-btn @click.once="Authorization" color="success" :disabled="validate"
               >Sign in</v-btn>
+              <v-snackbar v-model="snackbar" :timeout="timeout" top color="blue-grey">
+                {{ errorMessage }}</v-snackbar>
             </v-col>
           </v-row>
         </v-card>
       </v-form>
     </v-col>
+
   </v-row>
 </template>
 
@@ -69,16 +72,10 @@ export default {
       }
       this.$store.dispatch('auth', data)
           .then(() => {
-            this.$router.push('/main');
           })
-          .catch(err => {
-            this.error(err)
+          .catch(() => {
+            this.snackbar = true;
           })
-    },
-    error() {
-      this.snackbar = true;
-      this.message = this.errorMessage;
-      setTimeout(() => (this.snackbar = false), this.timeout);
     }
   }
 }

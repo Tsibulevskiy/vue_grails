@@ -18,8 +18,7 @@
     },
     computed: {
       isLoggedIn: function () {
-        // return this.$store.getters.isLoggedIn
-        return false
+        return this.$store.getters.isLoggedIn
       }
     }
   };

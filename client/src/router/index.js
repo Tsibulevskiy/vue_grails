@@ -12,14 +12,12 @@ const routes = [
     path: '/', name: 'Main',
     component: () => import('@/views/Main')
   },
-  {
-    path: '*', redirect: '/'
-  }
+
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes
 })
 router.beforeEach((to, from, next) => {
