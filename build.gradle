@@ -111,4 +111,32 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+//   +++++++++++
+node {
+    version = '14.15.4'
+    download = true
+    nodeModulesDir = file("${System.getProperty("user.dir")}/src/main/client")
+    workDir = file("${project.buildDir}/nodejs")
+}
+task initClient(type: NpmTask, dependsOn: 'npmInstall') {
+    group = 'build'
+    description = 'Compile client side assets for production'
+    args = ['run', 'build']
+}
+task buildClient(dependsOn: initClient) {
+    group = 'build'
+    description = 'Copy client resources into server'
+    doLast {
+        copy {
+            from "${System.getProperty("user.dir")}/src/main/client/dist/"
+            into "${System.getProperty("user.dir")}/src/main/webapp/"
+        }
+    }
+}
+bootRun.dependsOn(initClient)
 
+war.dependsOn(initClient)
+
+clean {
+    delete fileTree(dir: "src/main/webapp")
+}
