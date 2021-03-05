@@ -8,6 +8,10 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+    cors:
+        enabled: true
+    resources:
+        pattern: /**
 info:
     app:
         name: '@info.app.name@'
@@ -36,8 +40,6 @@ management:
 
 ---
 grails:
-    cors:
-        enabled: true
     mime:
         disable:
             accept:

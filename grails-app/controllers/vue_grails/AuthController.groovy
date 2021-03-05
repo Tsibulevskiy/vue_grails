@@ -10,9 +10,9 @@ class AuthController {
         try {
             response.status = 200
             render AuthenticationService.serviceMethod(request.XML) as JSON
-        } catch(error) {
+        } catch(e) {
             response.status = 401
-            render([error: error.message] as JSON)
+            render([error: e.message] as JSON)
         }
     }
 }

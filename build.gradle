@@ -118,12 +118,12 @@ node {
     nodeModulesDir = file("${System.getProperty("user.dir")}/src/main/client")
     workDir = file("${project.buildDir}/nodejs")
 }
-task initClient(type: NpmTask, dependsOn: 'npmInstall') {
+task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
     group = 'build'
     description = 'Compile client side assets for production'
     args = ['run', 'build']
 }
-task buildClient(dependsOn: initClient) {
+task copyClientResources (dependsOn: buildClient) {
     group = 'build'
     description = 'Copy client resources into server'
     doLast {
@@ -133,9 +133,12 @@ task buildClient(dependsOn: initClient) {
         }
     }
 }
-bootRun.dependsOn(initClient)
 
-war.dependsOn(initClient)
+war.dependsOn(buildClient)
+
+bootRun.dependsOn(buildClient)
+
+
 
 clean {
     delete fileTree(dir: "src/main/webapp")
